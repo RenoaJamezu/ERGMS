@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         $customer = Customers::create([
             'email' => $request->email,
-            'hashed_password' => Hash::make($request->password),
+            'password' => Hash::make($request->password),
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'address' => $request->address,
@@ -49,7 +49,7 @@ class AuthController extends Controller
 
         $customer = Customers::where('email', $request->email)->first();
 
-        if (!$customer || !Hash::check($request->password, $customer->hashed_password)) {
+        if (!$customer || !Hash::check($request->password, $customer->password)) {
             return response()->json(
                 [
                     'status' => 'error',

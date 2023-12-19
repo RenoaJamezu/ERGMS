@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Customers extends Model
 {
+
+    use AuthenticatableTrait, HasFactory, HasApiTokens, Notifiable;
+
     use HasFactory;
 
     /**
@@ -33,6 +40,15 @@ class Customers extends Model
       'last_name'
       'address'
       'email'
-      'hashed_password'
+      'password'
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['password'];
+
+
 }
