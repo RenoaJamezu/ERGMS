@@ -15,7 +15,7 @@ return new class extends Migration
           $table->id('rental_id');
           $table->string('location_block');
           $table->string('location_lot');
-          $table->string('nectares');
+          $table->string('hectares');
           $table->decimal('rental_amount', 8, 2);
           $table->boolean('availability');
           $table->timestamps();
