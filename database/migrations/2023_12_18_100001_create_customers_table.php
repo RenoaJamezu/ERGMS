@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('customer_id');
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('address');
             $table->string('email')->unique();
             $table->string('hashed_password');
             $table->timestamps();
