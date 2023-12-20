@@ -10,7 +10,7 @@ use App\Models\Customers;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function registerCustomer(Request $request)
     {
         $request->validate([
             'first_name' => 'required',
@@ -35,7 +35,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(Request $request)
+    public function loginCustomer(Request $request)
     {
         $request->validate([
             'email' => 'required',
@@ -62,7 +62,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function logout(Request $request)
+    public function logoutCustomer(Request $request)
     {
         $request
             ->user()
