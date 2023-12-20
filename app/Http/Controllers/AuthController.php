@@ -7,9 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use App\Models\Customers;
+use App\Models\Employees;
 
 class AuthController extends Controller
 {
+
+    // Customers
+
     public function registerCustomer(Request $request)
     {
         $request->validate([
@@ -63,6 +67,71 @@ class AuthController extends Controller
     }
 
     public function logoutCustomer(Request $request)
+    {
+        $request
+            ->user()
+            ->currentAccessToken()
+            ->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'logged out successfully',
+        ], 200);
+    }
+
+    // Employees
+
+    public function registerEmployee(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => ['required', 'email', Rule::unique('employees')],
+            'password' => 'required|min:8',
+        ]);
+
+        $employee = Customers::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'employee created successfully',
+            'data' => $employee,
+        ], 201);
+    }
+
+    public function loginEmployee(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required|min:8',
+        ]);
+
+        $employee = Customers::where('email', $request->email)->first();
+
+        if (!$employee) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'customer not found',
+            ], 401);
+        }
+
+        $token = $employee->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'login successful',
+            'data' => [
+                'customer' => $employee,
+                'token' => $token,
+            ],
+        ], 200);
+    }
+
+    public function logoutEmployee(Request $request)
     {
         $request
             ->user()

@@ -21,9 +21,18 @@ use App\Http\Controllers\AuthController;
 //     return $request->user();
 // });
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+// Customer
+Route::post('/register-customer', [AuthController::class, 'registerCustomer']);
+Route::post('/login-customer', [AuthController::class, 'loginCustomer']);
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout-customer', [AuthController::class, 'logoutCustomer']);
+});
+
+// Employee
+Route::post('/register-employee', [AuthController::class, 'registerEmployee']);
+Route::post('/login-employee', [AuthController::class, 'loginEmployee']);
+
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post('/logout-employee', [AuthController::class, 'logoutEmployee']);
 });
