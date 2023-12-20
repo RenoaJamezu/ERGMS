@@ -26,5 +26,5 @@ class Employees extends Model
 
     protected $hidden = [
         'password',
-    ]
+    ];
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,9 +12,7 @@ use App\Models\Employees;
 
 class AuthController extends Controller
 {
-
     // Customers
-
     public function registerCustomer(Request $request)
     {
         $request->validate([
@@ -79,8 +78,9 @@ class AuthController extends Controller
         ], 200);
     }
 
-    // Employees
 
+    
+    // Employee
     public function registerEmployee(Request $request)
     {
         $request->validate([
@@ -90,7 +90,7 @@ class AuthController extends Controller
             'password' => 'required|min:8',
         ]);
 
-        $employee = Customers::create([
+        $employee = Employees::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -111,12 +111,12 @@ class AuthController extends Controller
             'password' => 'required|min:8',
         ]);
 
-        $employee = Customers::where('email', $request->email)->first();
+        $employee = Employees::where('email', $request->email)->first();
 
         if (!$employee) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'customer not found',
+                'message' => 'employee not found',
             ], 401);
         }
 
@@ -125,7 +125,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'login successful',
             'data' => [
-                'customer' => $employee,
+                'employee' => $employee,
                 'token' => $token,
             ],
         ], 200);
