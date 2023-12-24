@@ -18,22 +18,28 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-// Customer
-Route::post('/register-customer', [AuthController::class, 'registerCustomer']);
-Route::post('/login-customer', [AuthController::class, 'loginCustomer']);
-
-Route::middleware('auth:sanctum')->group(function() {
-    Route::post('/logout-customer', [AuthController::class, 'logoutCustomer']);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
 
-// Employee
-Route::post('/register-employee', [AuthController::class, 'registerEmployee']);
-Route::post('/login-employee', [AuthController::class, 'loginEmployee']);
+Route::controller(AuthController::class)->group(function () {
+    
+    // Customer
+    Route::post('/register-customer', [AuthController::class, 'registerCustomer']);
+    Route::post('/login-customer', [AuthController::class, 'loginCustomer']);
 
-Route::middleware('auth:sanctum')->group(function() {
-    Route::post('/logout-employee', [AuthController::class, 'logoutEmployee']);
+    Route::middleware('auth:sanctum')->group(function() {
+        Route::post('/logout-customer', [AuthController::class, 'logoutCustomer']);
+    });
+
+    
+    // Employee
+    Route::post('/register-employee', [AuthController::class, 'registerEmployee']);
+    Route::post('/login-employee', [AuthController::class, 'loginEmployee']);
+
+    Route::middleware('auth:sanctum')->group(function() {
+        Route::post('/logout-employee', [AuthController::class, 'logoutEmployee']);
+    });
 });
+
+
