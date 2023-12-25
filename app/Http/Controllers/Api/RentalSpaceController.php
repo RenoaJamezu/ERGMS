@@ -14,7 +14,7 @@ class RentalSpaceController extends Controller
         // Validate the request data
         $validatedData = $request->validate([
             'name' => 'required',
-            'description' => 'nullable',
+            'recommended_business' => 'required',
             'location' => 'required',
             'monthly_price' => 'required|numeric',
         ]);
@@ -32,7 +32,7 @@ class RentalSpaceController extends Controller
         // Create a new rental space associated with the authenticated employee
         $newRentalSpace = $authenticatedEmployee->rentalSpaces()->create([
             'name' => $validatedData['name'],
-            'description' => $validatedData['description'],
+            'recommended_business' => $validatedData['recommended_business'],
             'location' => $validatedData['location'],
             'monthly_price' => $validatedData['monthly_price'],
             'date_created' => now(),

@@ -44,3 +44,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/add-rental-spaces', [RentalSpaceController::class, 'addRentalSpaces']);
 });
 
+  

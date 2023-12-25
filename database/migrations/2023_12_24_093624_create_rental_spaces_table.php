@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('rental_spaces', function (Blueprint $table) {
             $table->id('rental_space_id');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('recommended_business');
             $table->string('location');
             $table->string('monthly_price');
             $table->dateTime('date_created');

@@ -15,7 +15,7 @@ class RentalSpaces extends Model
 
     protected $fillable = [
         'name',
-        'description',
+        'recommended_business',
         'location',
         'monthly_price',
         'date_created',
