@@ -19,11 +19,15 @@ return new class extends Migration
             $table->string('location');
             $table->string('monthly_price');
             $table->dateTime('date_created');
+            $table->unsignedBigInteger('employee_id');
             $table->timestamps();
-        });
 
-        Schema::table('rental_spaces', function (Blueprint $table) {
-            $table->foreignIdFor(Employees::class, 'employee_id')->onDelete('cascade');
+
+            // Define the foreign key constraint
+            $table->foreign('employee_id')
+                ->references('employee_id')
+                ->on('employees')
+                ->onDelete('cascade'); 
         });
     }
 

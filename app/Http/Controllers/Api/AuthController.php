@@ -24,18 +24,18 @@ class AuthController extends Controller
         ]);
 
         $customer = Customers::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'address' => $request->address,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'first_name' => $request->input(first_name),
+            'last_name' => $request->input(last_name),
+            'address' => $request->input(address),
+            'email' => $request->input(email),
+            'password' => Hash::make($request->input(password)),
         ]);
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'customer created successfully.',
+            'status' => 'Success',
+            'message' => 'Customer Created Successfully.',
             'data' => $customer,
-        ], 204);
+        ], 200);
     }
 
     public function loginCustomer(Request $request)
@@ -49,24 +49,22 @@ class AuthController extends Controller
 
         if (!$customer) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'customer not found.',
+                'status' => 'Error',
+                'message' => 'Customer Not Found.',
             ], 404);
         }
 
-        $credentials = request(['email', 'password']);
-
-        if (!Auth::attempt($credentials)) {
+        if (!Hash::check($request->password, $customer->password)) {
             return response()->json([
-              'status' => 'error',
-              'message' => 'invalid password, please try again.',
+              'status' => 'Error',
+              'message' => 'Invalid Password, Please Try Again.',
             ], 422);
         }
 
         $token = $customer->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'login successful.',
+            'message' => 'login Successful.',
             'data' => [
                 'customer' => $customer,
                 'token' => $token,
@@ -82,9 +80,9 @@ class AuthController extends Controller
             ->delete();
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'logged out successfully.',
-        ], 200);
+            'status' => 'Success',
+            'message' => 'Logged Out Successfully.',
+        ], 204);
     }
 
 
@@ -99,15 +97,15 @@ class AuthController extends Controller
         ]);
 
         $employee = Employees::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
         ]);
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'employee created successfully.',
+            'status' => 'Success',
+            'message' => 'Employee Created Successfully.',
             'data' => $employee,
         ], 200);
     }
@@ -115,7 +113,7 @@ class AuthController extends Controller
     public function loginEmployee(Request $request)
     {
         $request->validate([
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required|min:8',
         ]);
 
@@ -123,24 +121,22 @@ class AuthController extends Controller
 
         if (!$employee) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'employee not found.',
+                'status' => 'Error',
+                'message' => 'Employee Not Found.',
             ], 404);
         }
 
-        $credentials = request(['email', 'password']);
-
-        if (!Auth::attempt($credentials)) {
+        if (!Hash::check($request->password, $employee->password)) {
             return response()->json([
-              'status' => 'error',
-              'message' => 'invalid password, please try again.',
+                'status' => 'Error',
+                'message' => 'Invalid Password, Please Try Again.',
             ], 422);
         }
 
         $token = $employee->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'login successful.',
+            'message' => 'Login Successful.',
             'data' => [
                 'employee' => $employee,
                 'token' => $token,
@@ -150,14 +146,11 @@ class AuthController extends Controller
 
     public function logoutEmployee(Request $request)
     {
-        $request
-            ->user()
-            ->currentAccessToken()
-            ->delete();
+      $request->user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'logged out successfully.',
-        ], 204);
+      return response()->json([
+          'status' => 'Success',
+          'message' => 'Logged Out Successfully.',
+      ], 201);
     }
 }

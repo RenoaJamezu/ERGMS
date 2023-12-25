@@ -19,7 +19,7 @@ class RentalSpaces extends Model
         'location',
         'monthly_price',
         'date_created',
-        'employee_id'
+        'employee_id',
     ];
 
     public function employee()
