@@ -45,4 +45,24 @@ class RentalSpaceController extends Controller
             'data' => $newRentalSpace,
         ], 201);
     }
+
+    public function getRentalSpaces()
+    {
+        try {
+            // Get all rental spaces
+            $rentalSpaces = RentalSpaces::all();
+
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Rental Spaces retrieved successfully',
+                'data' => $rentalSpaces,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Unable to retrieve rental spaces',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

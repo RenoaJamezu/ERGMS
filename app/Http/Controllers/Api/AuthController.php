@@ -24,11 +24,11 @@ class AuthController extends Controller
         ]);
 
         $customer = Customers::create([
-            'first_name' => $request->input(first_name),
-            'last_name' => $request->input(last_name),
-            'address' => $request->input(address),
-            'email' => $request->input(email),
-            'password' => Hash::make($request->input(password)),
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'address' => $request->input('address'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
         ]);
 
         return response()->json([
@@ -74,7 +74,7 @@ class AuthController extends Controller
 
     public function logoutCustomer(Request $request)
     {
-        $request
+        $request  
             ->user()
             ->currentAccessToken()
             ->delete();
